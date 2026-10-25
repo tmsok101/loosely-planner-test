@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loosely — try one planner page (5-minute test)</title>
+<style>
+  :root {
+    --ink: #2b2a3a;
+    --ink-soft: #5b5a6e;
+    --paper: #fffdf8;
+    --line: #e4ddd0;
+    --accent: #ff8d6b;
+    --accent-dark: #c22d00;
+    --accent-soft: #ffe3d6;
+    --accent2: #6ea8a0;
+    --accent2-soft: #e1f0ed;
+    --yellow-soft: #fff5db;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.5;
+  }
+  a { color: var(--accent-dark); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 18px 80px; }
+
+  .banner {
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 9px 14px;
+  }
+  .banner strong { color: var(--accent); }
+
+  header.intro { padding: 28px 0 10px; }
+  header.intro h1 { font-size: 1.9rem; margin: 0 0 10px; line-height: 1.2; }
+  header.intro p { color: var(--ink-soft); margin: 0 0 10px; }
+  .disclosure {
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: 14px 16px;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin-top: 14px;
+  }
+  .disclosure strong { color: var(--ink); }
+
+  .step-label {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin: 36px 0 10px;
+  }
+
+  .panel {
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .panel h3 {
+    margin: 0 0 10px;
+    font-size: 0.98rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel h3 .num {
+    background: var(--accent);
+    color: #fff;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex: none;
+  }
+  .soft-note { font-size: 0.8rem; color: var(--ink-soft); font-style: italic; }
+
+  .daily-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .daily-head .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    font-weight: 700;
+  }
+  .daily-head h2 { margin: 2px 0 0; font-size: 1.3rem; }
+  .daily-head input[type="text"].day-input {
+    border: none;
+    border-bottom: 1.5px solid var(--line);
+    font-size: 1.1rem;
+    font-family: inherit;
+    width: 180px;
+    padding: 2px 0;
+    background: transparent;
+  }
+  .energy-faces { display: flex; gap: 8px; margin-top: 6px; }
+  .energy-faces label {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+    background: #fff;
+  }
+  .energy-faces input { display: none; }
+  .energy-faces input:checked + label,
+  .energy-faces label:has(input:checked) { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .top3 { background: var(--accent-soft); border-color: transparent; }
+  .top3 .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.12);
+  }
+  .top3 .row:last-child { border-bottom: none; }
+  .top3 input[type="checkbox"] { width: 20px; height: 20px; flex: none; }
+  .top3 input[type="text"] {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    background: transparent;
+    font-size: 0.98rem;
+    font-family: inherit;
+    padding: 4px 2px;
+  }
+
+  textarea, select, .text-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  .checkins { background: var(--yellow-soft); border-color: transparent; }
+  .checkins .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.88rem;
+  }
+  .checkins .row:last-child { border-bottom: none; }
+  .checkins .row label { color: var(--ink-soft); font-weight: 600; }
+  .checkins .choices { display: flex; gap: 14px; font-size: 0.85rem; }
+
+  .q-block { margin-bottom: 18px; }
+  .q-block label.q-title { display: block; font-weight: 700; margin-bottom: 6px; }
+  .q-note { font-size: 0.8rem; color: var(--ink-soft); margin: 4px 0 0; }
+
+  button.primary {
+    background: var(--accent-dark);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button.primary:hover { opacity: 0.92; }
+  button.primary:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 3px solid var(--accent2);
+    outline-offset: 2px;
+  }
+
+  .output-box {
+    margin-top: 14px;
+  }
+  .output-box textarea {
+    min-height: 220px;
+    font-family: "SF Mono", Consolas, monospace;
+    font-size: 0.82rem;
+  }
+  .copy-status {
+    font-size: 0.85rem;
+    color: var(--accent2);
+    font-weight: 700;
+    margin-top: 8px;
+    min-height: 1.2em;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <strong>Local prototype test</strong> — nothing you type here is sent anywhere or saved on any server. No account, no payment.
+</div>
+
+<div class="wrap">
+
+  <header class="intro">
+    <h1>Try one planner page for a day, then answer 5 quick questions</h1>
+    <p>This is a one-day usability test for <strong>Loosely</strong>, an undated, ADHD-friendly daily planner page. It takes about 5 minutes to set up and 2 minutes to answer the questions afterward.</p>
+    <div class="disclosure">
+      <strong>Honest disclosure:</strong> Loosely is a planned small commercial product (a printable planner set, test price around $5.99). This page is an early, unfinished prototype — only this one daily page exists in interactive form. We're testing whether the idea makes sense to real people before building more or selling anything. Your answers help decide that. Nothing is for sale here and no payment happens on this page.
+    </div>
+  </header>
+
+  <div class="step-label">Step 1 · Use the page below</div>
+  <p class="soft-note">Fill it in like you would on a real day — right now, or carry it with you (this page stays open in your browser) and come back to it later today.</p>
+
+  <section class="panel" style="padding:0;">
+    <div style="padding:18px 18px 4px;">
+      <div class="daily-head">
+        <div>
+          <div class="kicker">Today is</div>
+          <h2><input type="text" class="day-input" id="dayLabel" placeholder="write the day, or don't"></h2>
+        </div>
+        <div>
+          <div class="kicker">Energy today</div>
+          <div class="energy-faces" id="energyFaces">
+            <label><input type="radio" name="energy" value="1">1</label>
+            <label><input type="radio" name="energy" value="2">2</label>
+            <label><input type="radio" name="energy" value="3">3</label>
+            <label><input type="radio" name="energy" value="4">4</label>
+            <label><input type="radio" name="energy" value="5">5</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:0 18px 18px;">
+      <div class="panel top3">
+        <h3><span class="num">1</span>Top 3 — that's the whole list</h3>
+        <div class="row"><input type="checkbox" id="p1c"><input type="text" id="p1" placeholder="First priority" maxlength="80"></div>
+        <div class="row"><input type="checkbox" id="p2c"><input type="text" id="p2" placeholder="Second priority" maxlength="80"></div>
+        <div class="row"><input type="checkbox" id="p3c"><input type="text" id="p3" placeholder="Third priority" maxlength="80"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Brain dump <span class="soft-note">— get it out of your head, not out of your day</span></h3>
+        <textarea id="braindump" placeholder="Anything else on your mind..."></textarea>
+      </div>
+
+      <div class="panel checkins">
+        <h3>Small check-ins <span class="soft-note">(no row for "missed")</span></h3>
+        <div class="row"><label>Water</label><input type="text" id="water" class="text-input" style="width:140px;" placeholder="e.g. ooo"></div>
+        <div class="row"><label>Took meds</label>
+          <div class="choices">
+            <label><input type="radio" name="meds" value="yes"> yes</label>
+            <label><input type="radio" name="meds" value="no"> no</label>
+            <label><input type="radio" name="meds" value="na"> n/a</label>
+          </div>
+        </div>
+        <div class="row"><label>Moved body</label>
+          <div class="choices">
+            <label><input type="radio" name="moved" value="yes"> yes</label>
+            <label><input type="radio" name="moved" value="no"> no</label>
+          </div>
+        </div>
+        <div class="row"><label>Ate something</label>
+          <div class="choices">
+            <label><input type="radio" name="ate" value="yes"> yes</label>
+            <label><input type="radio" name="ate" value="no"> no</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="step-label">Step 2 · After your day, answer these 5 questions</div>
+
+  <section class="panel">
+    <div class="q-block">
+      <label class="q-title">1. Understanding — before using it, did it make sense what each part was for, without extra explanation?</label>
+      <textarea id="q1" placeholder="Yes / mostly / no — what was unclear?"></textarea>
+    </div>
+    <div class="q-block">
+      <label class="q-title">2. Actual use — what did you actually do with it today?</label>
+      <textarea id="q2" placeholder="Filled it in once, checked it during the day, ignored parts of it, etc."></textarea>
+    </div>
+    <div class="q-block">
+      <label class="q-title">3. Friction — what, if anything, got in the way or felt annoying or confusing?</label>
+      <textarea id="q3" placeholder="Be honest, there's no wrong answer here"></textarea>
+    </div>
+    <div class="q-block">
+      <label class="q-title">4. Current alternative — what do you currently use (today)?</label>
+      <textarea id="q4" placeholder="App, paper, nothing, ..."></textarea>
+    </div>
+    <div class="q-block">
+      <label class="q-title">5. Price reaction — if this were sold as a small printable set (cover + several days + weekly pages) for about $5.99, what's your honest reaction?</label>
+      <textarea id="q5" placeholder="e.g. 'seems fair' vs 'I'd actually buy that' — say which one it is for you"></textarea>
+      <p class="q-note">This is the one answer we care most about — "seems fair" and "I would actually buy that" mean very different things to us, so please be specific.</p>
+    </div>
+    <div class="q-block">
+      <label class="q-title">Optional — tester label (not your name, just something like "Tester A")</label>
+      <input type="text" class="text-input" id="testerLabel" placeholder="Optional, no personal info needed" maxlength="40">
+    </div>
+
+    <button class="primary" id="buildBtn" type="button">Build my answers (copies to clipboard)</button>
+    <div class="copy-status" id="copyStatus" role="status"></div>
+    <div class="output-box">
+      <textarea id="output" readonly placeholder="Your answers will appear here as plain text after you click the button above — copy/paste it wherever you were asked to send it (e.g. a reply to the post that linked you here)."></textarea>
+    </div>
+  </section>
+
+  <footer>
+    Loosely is an early local prototype. No account was created, nothing above is saved after you close this page, and nothing is sent automatically — you choose where to paste your answers.
+  </footer>
+</div>
+
+<script>
+  function val(id) { return document.getElementById(id).value.trim(); }
+  function checked(name) {
+    var els = document.getElementsByName(name);
+    for (var i = 0; i < els.length; i++) { if (els[i].checked) return els[i].value; }
+    return '(not answered)';
+  }
+
+  document.getElementById('buildBtn').addEventListener('click', function () {
+    var lines = [];
+    lines.push('Loosely — test note');
+    lines.push('');
+    lines.push('Tester label: ' + (val('testerLabel') || '(none given)'));
+    lines.push('Day label used: ' + (val('dayLabel') || '(left undated)'));
+    lines.push('Energy today: ' + checked('energy'));
+    lines.push('');
+    lines.push('--- What they actually used the page for ---');
+    lines.push('Priority 1: ' + (val('p1') || '(blank)') + (document.getElementById('p1c').checked ? ' [done]' : ''));
+    lines.push('Priority 2: ' + (val('p2') || '(blank)') + (document.getElementById('p2c').checked ? ' [done]' : ''));
+    lines.push('Priority 3: ' + (val('p3') || '(blank)') + (document.getElementById('p3c').checked ? ' [done]' : ''));
+    lines.push('Brain dump: ' + (val('braindump') || '(blank)'));
+    lines.push('Water: ' + (val('water') || '(blank)') + ' | Meds: ' + checked('meds') + ' | Moved: ' + checked('moved') + ' | Ate: ' + checked('ate'));
+    lines.push('');
+    lines.push('--- 5 questions ---');
+    lines.push('Q1 (understanding): ' + (val('q1') || '(not answered)'));
+    lines.push('Q2 (actual use): ' + (val('q2') || '(not answered)'));
+    lines.push('Q3 (friction/problems): ' + (val('q3') || '(not answered)'));
+    lines.push('Q4 (current alternative): ' + (val('q4') || '(not answered)'));
+    lines.push('Q5 (price reaction): ' + (val('q5') || '(not answered)'));
+
+    var text = lines.join('\n');
+    var output = document.getElementById('output');
+    output.value = text;
+    var status = document.getElementById('copyStatus');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        status.textContent = 'Copied to clipboard — paste it as your reply.';
+      }).catch(function () {
+        output.select();
+        status.textContent = 'Could not auto-copy — the text is selected above, copy it manually.';
+      });
+    } else {
+      output.select();
+      status.textContent = 'The text is selected above — copy it manually.';
+    }
+  });
+</script>
+
+</body>
+</html>
